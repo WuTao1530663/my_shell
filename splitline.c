@@ -8,7 +8,7 @@
 
 //char *estrcpy(char *dst,const char *src);
 
-char *next_cmd(char *prompt,FILE *fp){
+char *next_cmd(char*prompt,FILE *fp){
 	// purpose:read next command line from fp
 	// returns:dynamically allocated string holding command line
 	// errors:NULL at EOF
