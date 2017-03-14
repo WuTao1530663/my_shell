@@ -8,6 +8,7 @@
 #include<ctype.h>
 #include<sys/wait.h>
 #include<signal.h>
+#include<fcntl.h>
 //splitline.c
 char *next_cmd(char*,FILE*);
 char **splitline(char *);
@@ -38,6 +39,10 @@ int var_export();
 void var_print_list();
 int var_init_from_environ(char**);
 char** var_to_environ();
+
+//redirect.c
+void redirect(char **arglist);
+void recover_stdio();
 
 //util.c
 int is_legal_name(char*);

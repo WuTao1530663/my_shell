@@ -69,7 +69,7 @@ int do_control_command(char **args){
                 rv = 0;
         }
         else if(strcmp(cmd,"fi") == 0){
-                if(if_state!=ELSE_BLOCK)
+                if(if_state!=ELSE_BLOCK && if_state != THEN_BLOCK )
                         perror("if_state error");
                 else{
                         if_state = NEUTRAL;
