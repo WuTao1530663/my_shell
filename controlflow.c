@@ -9,6 +9,9 @@ static int if_state = NEUTRAL;
 static int if_result = SUCCESS;
 static int last_stat = 0;
 
+static int while_state = 0;
+static char **while_condition;
+static char **while_block;
 int ok_to_execute(){
         /*
 purpose:determine the shell shold execute a cmd
@@ -28,13 +31,18 @@ if in WANT_THEN then error
                 rv = 0;
         else if(if_state == ELSE_BLOCK && if_result == SUCCESS)
                 rv = 0;
+	if(while_state == 1)
+		rv = 0;
         return rv;
 }
 
 int is_control_command(char *cmd){
-        return (strcmp(cmd,"if")==0||strcmp(cmd,"then")==0||strcmp(cmd,"fi")==0||strcmp(cmd,"else")==0);
+        return (strcmp(cmd,"if") == 0||strcmp(cmd,"then") == 0||strcmp(cmd,"fi") == 0||strcmp(cmd,"else")==0 || strcmp(cmd,"done") == 0 || strcmp(cmd,"while") == 0);
 }
 
+int is_in_while_block(){
+	return while_state;
+}
 
 int do_control_command(char **args){
         /*purpose: Process control command--change if_state or detect error
@@ -42,8 +50,13 @@ int do_control_command(char **args){
          */
         char *cmd = args[0];
         int rv = -1;
-        if(strcmp(cmd,"if")==0){
-                if(if_state != NEUTRAL)
+	if(while_state == 1 &&strcmp(cmd,"done")!=0){
+		while_block = create_new_arglist(args);
+		rv = 0;
+	}
+
+	else if(strcmp(cmd,"if")==0){
+                if(0)//if_state != NEUTRAL)
                         perror("if_state error");
                 else{
                         last_stat = process(args + 1);//execute cmd after if
@@ -76,6 +89,26 @@ int do_control_command(char **args){
                         rv = 0;
                 }
         }
+	else if(strcmp(cmd,"while") == 0){
+		while_state = 1;
+		while_condition = create_new_arglist(args + 1);
+		rv = 0;
+	}
+	else if(strcmp(cmd,"done") == 0){
+		if(while_state != 1)
+			perror("while state error");
+		else{
+			
+			while_state = 0;
+			while(process(while_condition) == 0){
+				process(while_block);
+			}
+			freelist(while_block);
+			freelist(while_condition);
+			rv = 0;
+		}
+	}
+	
         return rv;
 
 

@@ -1,5 +1,6 @@
 #define is_delimiter(c) (((c) == ';') ||((c) == '\n'))
 #define ARGLEN 20
+#define MAXPIPES 10
 #define MAXARGS 20
 #define MAXVARS 300
 #include<unistd.h>
@@ -12,11 +13,7 @@
 //splitline.c
 char *next_cmd(char*,FILE*);
 char **splitline(char *);
-
-//alloc and free memory
 void freelist(char**);
-void *emalloc(size_t);
-void *erealloc(void*,size_t);
 
 //process cmd
 int execute(char**);
@@ -26,7 +23,7 @@ int process(char**);
 int ok_to_execute();
 int do_control_command(char**);
 int is_control_command(char*);
-
+int is_in_while_block();
 //builtin.c
 
 int is_built_in_command(char*);
@@ -41,8 +38,17 @@ int var_init_from_environ(char**);
 char** var_to_environ();
 
 //redirect.c
-void redirect(char **arglist);
+void redirect(char **);
 void recover_stdio();
+
+//pipe.c
+void pipe_split_args(char **,int[],int*);
+void pipe_create(int [][2],int);
+void do_pipe(int [][2],int,int,int);
 
 //util.c
 int is_legal_name(char*);
+void *emalloc(size_t);
+void *erealloc(void*,size_t);
+char **create_new_arglist(char**);
+void freelist(char**);

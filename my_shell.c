@@ -1,21 +1,22 @@
 #include"my_shell.h"
+#include<string.h>
 #define PROMPT ">"
 
 
 int main(){     
-        char *cmdline,*prompt,**arglist;
-        int result;
-        void setup();
+	char *cmdline,*prompt,**arglist;
+	int result;
+	void setup();
 	prompt = PROMPT;
-        setup();
-		while((cmdline = next_cmd(prompt,stdin)) != NULL){
-			if((arglist = splitline(cmdline)) != NULL){
-				result = process(arglist);
-	//			freelist(arglist);
-				}
-			free(cmdline);
-			cmdline = NULL;
+	setup();
+	while((cmdline = next_cmd(prompt,stdin)) != NULL){
+		if((arglist = splitline(cmdline)) != NULL){
+			result = process(arglist);
+		}
+		free(cmdline);
+		cmdline = NULL;
 	}
+
 
 }
 void setup(){

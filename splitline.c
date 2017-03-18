@@ -18,7 +18,7 @@ char *next_cmd(char*prompt,FILE *fp){
 	int pos = 0;
 	int c;
 	printf("%s",prompt);
-	while((c = getc(fp)) != EOF){
+	while((c= getc(fp))!=EOF){
 		if (pos + 1 >= bufspace){
 			if(bufspace == 0)
 				buf = emalloc(BUFSIZ);
@@ -58,21 +58,6 @@ char **splitline(char *line){
 
 }
 
-
-void *emalloc(size_t n){
-	void *rv;
-	if((rv = malloc(n))== NULL)
-		perror("out of memory");
-	return rv;
-}
-
-void *erealloc(void *p,size_t n){
-
-	void *rv;
-	if((rv = realloc(p,n)) == NULL)
-		perror("realloc() failed");
-	return rv;
-}
 /*
 void freelist(char **list){
 	//1st free char* in list then free char**

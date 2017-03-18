@@ -3,7 +3,6 @@
 int is_built_in_command(char *arg){
 	/*purpose: if arg is builtin cmd return 1 else 0*/
 	return ((strcmp(arg,"set") == 0) || (strchr(arg,'=') != NULL) ||(strcmp(arg,"export")==0));
-
 }
 
 int do_built_in_command(char **args){
@@ -25,6 +24,7 @@ int do_built_in_command(char **args){
 			perror("export error");		
 		}
 	}
+		
 	return rv;
 }
 
