@@ -17,7 +17,7 @@ char *next_cmd(char*prompt,FILE *fp){
 	int bufspace = 0;	
 	int pos = 0;
 	int c;
-	printf("%s",prompt);
+	print_prompt(prompt);
 	while((c= getc(fp))!=EOF){
 		if (pos + 1 >= bufspace){
 			if(bufspace == 0)

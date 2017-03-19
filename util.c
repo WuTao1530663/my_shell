@@ -1,5 +1,6 @@
 #include"my_shell.h"
 #include<string.h>
+#include<pwd.h>
 int is_legal_name(char *name){
         /*purposes:if name is legal name return 1 else 0*/
         char *cp;
@@ -44,4 +45,9 @@ void freelist(char **arglist){
 	for(int i =0;arglist[i];++i)
 		free(arglist[i]);
 	free(arglist);
+}
+
+void print_prompt(char *prompt){
+	char path[MAXPATH];
+	printf("%s:%s%s",getenv("LOGNAME"),getcwd(path,MAXPATH),prompt);
 }

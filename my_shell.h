@@ -3,6 +3,7 @@
 #define MAXPIPES 10
 #define MAXARGS 20
 #define MAXVARS 300
+#define MAXPATH 100
 #include<unistd.h>
 #include<stdlib.h>
 #include<stdio.h>
@@ -51,4 +52,5 @@ int is_legal_name(char*);
 void *emalloc(size_t);
 void *erealloc(void*,size_t);
 char **create_new_arglist(char**);
+void print_prompt(char *prompt);
 void freelist(char**);
